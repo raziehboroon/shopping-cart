@@ -1,6 +1,6 @@
 export const shorten = (name) => {
   const splited_name = name.split(" ");
-  return `${splited_name[0]} ${splited_name[1]}...`;
+  return `${splited_name[0]} ${splited_name[1]}`;
 };
 
 export const isInCart = (id, state) => {

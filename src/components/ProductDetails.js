@@ -1,3 +1,4 @@
+import styles from "./ProductDetails.module.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -11,14 +12,16 @@ const ProductDetails = () => {
   const product = products[id - 1];
   const { image, title, description, price, category } = product;
   return (
-    <div>
-      <img src={image} alt={title} />
-      <div>
+    <div className={styles.container}>
+      <img src={image} alt={title} className={styles.image} />
+      <div className={styles.textContainer}>
         <h3>{title}</h3>
-        <p>{description}</p>
-        <p>Category: {category}</p>
-        <div>
-          <span>{price}$</span>
+        <p className={styles.description}>{description}</p>
+        <p className={styles.category}>
+          <span>Category:</span> {category}
+        </p>
+        <div className={styles.buttonContainer}>
+          <span className={styles.price}>{price}$</span>
           <br />
           <Link to="/products">back to store</Link>
         </div>
