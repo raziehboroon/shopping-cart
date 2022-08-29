@@ -1,59 +1,63 @@
 import styles from "./Product.module.css";
-import React, { useContext } from "react";
+import React from "react";
 import { shorten, isInCart, quantityCount } from "../../helper/functions";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../context/CartContextProvider";
 import trashIcon from "../../assets/icons/trash.svg";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  removeItem,
+  decreaseItem,
+  increaseItem,
+  addItem,
+} from "../../features/cart/cartSlice";
 
-const Product = (product) => {
-  const { state, dispatch } = useContext(CartContext);
+const Product = ({ productData }) => {
+  const cartState = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.container}>
       <img
-        src={product.image}
-        alt={product.title}
+        src={productData.image}
+        alt={productData.title}
         style={{ width: "200px" }}
         className={styles.cardImage}
       />
-      <h3>{shorten(product.title)}</h3>
-      <p>{product.price} $</p>
+      <h3>{shorten(productData.title)}</h3>
+      <p>{productData.price} $</p>
       <div className={styles.linkContainer}>
-        <Link to={`/products/${product.id}`}>details</Link>
+        <Link to={`/products/${productData.id}`}>details</Link>
         <div className={styles.buttonContainer}>
-          {quantityCount(product.id, state) === 1 && (
+          {quantityCount(productData.id, cartState) === 1 && (
             <button
               className={styles.smallButton}
-              onClick={() =>
-                dispatch({ type: "REMOVE_ITEM", payload: product })
-              }
+              onClick={() => dispatch(removeItem(productData))}
             >
               <img src={trashIcon} alt="bin" />
             </button>
           )}
-          {quantityCount(product.id, state) > 1 && (
+          {quantityCount(productData.id, cartState) > 1 && (
             <button
               className={styles.smallButton}
-              onClick={() => dispatch({ type: "DECREASE", payload: product })}
+              onClick={() => dispatch(decreaseItem(productData))}
             >
               -
             </button>
           )}
-          {quantityCount(product.id, state) > 0 && (
+          {quantityCount(productData.id, cartState) > 0 && (
             <span className={styles.counter}>
-              {quantityCount(product.id, state)}
+              {quantityCount(productData.id, cartState)}
             </span>
           )}
-          {isInCart(product.id, state) ? (
+          {isInCart(productData.id, cartState) ? (
             <button
               className={styles.smallButton}
-              onClick={() => dispatch({ type: "INCREASE", payload: product })}
+              onClick={() => dispatch(increaseItem(productData))}
             >
               +
             </button>
           ) : (
-            <button
-              onClick={() => dispatch({ type: "ADD_ITEM", payload: product })}
-            >
+            <button onClick={() => dispatch(addItem(productData))}>
               add to cart
             </button>
           )}

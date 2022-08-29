@@ -2,13 +2,11 @@ import styles from "./ProductDetails.module.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { ProductsContext } from "../context/ProductContextProvider";
+import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
-  const products = useContext(ProductsContext);
+  const products = useSelector((state) => state.products.products);
   const { id } = useParams();
-
   const product = products[id - 1];
   const { image, title, description, price, category } = product;
   return (

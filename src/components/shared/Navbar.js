@@ -1,12 +1,12 @@
 import styles from "./Navbar.module.css";
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../context/CartContextProvider";
 import shoppingcart from "../../assets/icons/shopping-cart-1985.svg";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { state } = useContext(CartContext);
-  // console.log(state.total);
+  const state = useSelector((state) => state.cart);
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>
